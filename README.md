@@ -24,4 +24,6 @@ Infinity Scroll is a simple HTML project that demonstrates an infinite scrolling
 - JavaScript is used to dynamically add new items to the RSS bar, ensuring it scrolls infinitely without interruption.
 
 
-## Contributing Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change. ## License This project is licensed under the MIT License. ## Contact For any questions or feedback, please reach out to [mostafasoleimani1987@gmail.com](mailto:mostafasoleimani1987@gmail.com).
+## Contributing Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change. 
+
+## Contact For any questions or feedback, please reach out to [mostafasoleimani1987@gmail.com](mailto:mostafasoleimani1987@gmail.com).
