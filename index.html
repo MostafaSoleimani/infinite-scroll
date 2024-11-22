@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic RSS Bar</title>
+    <style>
+        :root {
+            --animation-duration: 60s;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .rss-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #333;
+            color: #fff;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .rss-bar:hover {
+            .rss-content {
+                animation-play-state: paused;
+            }
+
+            .rss-content-1 {
+                animation-play-state: paused;
+            }
+        }
+
+        .rss-content {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            white-space: nowrap;
+            will-change: transform;
+            animation: scroll var(--animation-duration) linear;
+        }
+
+        .rss-content-1 {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            white-space: nowrap;
+            will-change: transform;
+            animation: scroll1 var(--animation-duration) linear;
+        }
+
+        .rss-item {
+            padding: 0 25px;
+            white-space: nowrap;
+        }
+
+        .paused {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll1 {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-150%));
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100vw);
+            }
+
+            100% {
+                transform: translateX(calc(-150% + 100vw));
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="rss-bar" id="rssBar">
+    </div>
+
+    <script>
+        var animationDurationPerItem = 6 //seconds
+        const messages = [
+            'Message 1', 'Message 2', 'Message 3', 'Message 4', 'Message 5',
+            'Message 6', 'Message 7', 'Message 8', 'Message 9', 'Message 10',
+            'Message 11', 'Message 12', 'Message 13', 'Message 14', 'Message 15',
+            'Message 16', 'Message 17', 'Message 18', 'Message 19', 'Message 20',
+            'Message 21', 'Message 22', 'Message 23', 'Message 24', 'Message 25',
+            'Message 26', 'Message 27', 'Message 28', 'Message 29', 'Message 30',
+            'Message 31', 'Message 32', 'Message 33', 'Message 34', 'Message 35',
+            'Message 36', 'Message 37', 'Message 38', 'Message 39', 'Message 40',
+            'Message 41', 'Message 42', 'Message 43', 'Message 44', 'Message 45',
+            'Message 46', 'Message 47', 'Message 48', 'Message 49', 'Message 50'
+        ];
+
+        let currentMessages = [...messages];
+        let appendIndex = 0;
+        var rssBar = document.getElementById('rssBar');
+
+        const createRssContent = (id) => {
+            const div = document.createElement('div');
+            div.className = id ? 'rss-content-1' : 'rss-content';
+            return div;
+        }
+
+        const createMessageElement = (message) => {
+            const span = document.createElement('span');
+            span.className = 'rss-item';
+            span.textContent = message;
+            return span;
+        };
+
+
+
+        const addRssContent = (id) => {
+            const rssContent = createRssContent(id);
+            rssBar.appendChild(rssContent)
+            initializeRSSContent(rssContent);
+
+            let addednew = false
+            setInterval(() => {
+                const rect = rssContent.getBoundingClientRect();
+                if (rect.right < screen.width && !addednew) {
+                    addednew = true;
+                    addRssContent();
+                }
+
+                if (rect.right < 0) {
+                    rssBar.removeChild(rssContent)
+                }
+
+            }, 200);
+
+        }
+
+        const initializeRSSContent = (rssContent) => {
+            currentMessages.forEach(message => {
+                rssContent.appendChild(createMessageElement(message));
+            });
+        };
+
+        document.documentElement.style.setProperty('--animation-duration', (currentMessages.length * animationDurationPerItem) + 's');
+
+        addRssContent(1);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                let rssContent = document.getElementsByClassName('rss-content');
+                let rssContent1 = document.getElementsByClassName('rss-content-1');
+                rssContent[0]?.classList.remove('paused')
+                rssContent1[0]?.classList.remove('paused')
+
+            } else {
+                let rssContent = document.getElementsByClassName('rss-content');
+                let rssContent1 = document.getElementsByClassName('rss-content-1');
+                rssContent[0]?.classList.add('paused')
+                rssContent1[0]?.classList.add('paused')
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>
